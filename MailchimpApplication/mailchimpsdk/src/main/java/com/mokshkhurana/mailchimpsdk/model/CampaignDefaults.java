@@ -32,4 +32,20 @@ public class CampaignDefaults {
     public String getLanguage() {
         return language;
     }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
+    public void setFromEmail(String fromEmail) {
+        this.fromEmail = fromEmail;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

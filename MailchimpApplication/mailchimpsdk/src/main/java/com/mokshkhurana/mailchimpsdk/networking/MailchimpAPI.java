@@ -1,10 +1,13 @@
 package com.mokshkhurana.mailchimpsdk.networking;
 
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
-import com.mokshkhurana.mailchimpsdk.model.ListResponse;
+import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
+import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,4 +24,7 @@ public interface MailchimpAPI {
 
     @GET("lists/{id}")
     Call<ListInfo> getListById(@Path(value = "id", encoded = true) String id, @Query("fields") String fields, @Query("exclude_fields") String excludeFields);
+
+    @POST("lists")
+    Call<ListInfo> createList(@Body CreateListRequest createListRequest);
 }

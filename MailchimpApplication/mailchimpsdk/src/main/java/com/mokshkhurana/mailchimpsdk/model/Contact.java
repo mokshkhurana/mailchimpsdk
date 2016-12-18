@@ -59,4 +59,36 @@ public class Contact {
     public String getPhone() {
         return phone;
     }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

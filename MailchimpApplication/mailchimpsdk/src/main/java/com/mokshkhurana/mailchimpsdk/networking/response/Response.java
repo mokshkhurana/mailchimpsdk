@@ -1,4 +1,4 @@
-package com.mokshkhurana.mailchimpsdk.networking;
+package com.mokshkhurana.mailchimpsdk.networking.response;
 
 import com.mokshkhurana.mailchimpsdk.model.Error;
 

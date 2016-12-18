@@ -1,6 +1,8 @@
-package com.mokshkhurana.mailchimpsdk.model;
+package com.mokshkhurana.mailchimpsdk.networking.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.mokshkhurana.mailchimpsdk.model.Links;
+import com.mokshkhurana.mailchimpsdk.model.ListInfo;
 
 import java.util.ArrayList;
 

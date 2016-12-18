@@ -4,9 +4,10 @@ import android.util.Log;
 
 import com.mokshkhurana.mailchimpsdk.model.Error;
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
-import com.mokshkhurana.mailchimpsdk.model.ListResponse;
 import com.mokshkhurana.mailchimpsdk.networking.MailchimpAPI;
-import com.mokshkhurana.mailchimpsdk.networking.Response;
+import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
+import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
+import com.mokshkhurana.mailchimpsdk.networking.response.Response;
 import com.mokshkhurana.mailchimpsdk.util.Utils;
 
 import java.io.IOException;
@@ -113,6 +114,8 @@ public class MailchimpSDK {
                     responseListener.onFailure(getEmptyError(t.getMessage()));
                 }
             });
+        } else {
+            responseListener.onFailure(getEmptyError("SDK not initialized"));
         }
     }
 
@@ -145,6 +148,37 @@ public class MailchimpSDK {
                     responseListener.onFailure(getEmptyError(t.getMessage()));
                 }
             });
+        } else {
+            responseListener.onFailure(getEmptyError("SDK not initialized"));
+        }
+    }
+
+    /**
+     * Creates an empty list
+     * @param request {@link CreateListRequest} required to send as body parameter
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    public void createList(CreateListRequest request, final Response<ListInfo> responseListener) {
+        if (isSDKInitialized()) {
+            Call<ListInfo> createList = mMailchimpAPI.createList(request);
+            createList.enqueue(new Callback<ListInfo>() {
+                @Override
+                public void onResponse(Call<ListInfo> call, retrofit2.Response<ListInfo> response) {
+                    Error error;
+                    if ((error = getError(response)) != null) {
+                        responseListener.onFailure(error);
+                    } else {
+                        responseListener.onSuccess(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ListInfo> call, Throwable t) {
+                    responseListener.onFailure(getEmptyError(t.getMessage()));
+                }
+            });
+        } else {
+            responseListener.onFailure(getEmptyError("SDK not initialized"));
         }
     }
 

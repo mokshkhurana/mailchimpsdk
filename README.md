@@ -21,10 +21,4 @@ MailchimpSDK sdk = MailchimpSDK.getInstance();
 sdk.initSDK("your_api_key");
 ```
 
-## Current methods
-
-* Get lists
-* Get list by ID
-
-## Future Planning
-Next release: I will be completing post, patch and delete calls for list. After that I will be working account information.
+## Please check wiki for more information on how to use the methods
