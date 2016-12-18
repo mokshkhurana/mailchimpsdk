@@ -21,4 +21,4 @@ MailchimpSDK sdk = MailchimpSDK.getInstance();
 sdk.initSDK("your_api_key");
 ```
 
-## Please check wiki for more information on how to use the methods
+## Please check wiki for more information
