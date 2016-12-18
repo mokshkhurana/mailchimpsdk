@@ -11,7 +11,7 @@ url 'https://dl.bintray.com/mokshkhurana/moksh/'
 }
 
 dependencies {
-compile 'com.mokshkhurana:mailchimpsdk:1.0.0'
+compile 'com.mokshkhurana:mailchimpsdk:1.+'
 }
 ```
 ## Usage
