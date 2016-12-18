@@ -183,6 +183,35 @@ public class MailchimpSDK {
     }
 
     /**
+     * Delete the list by it's ID
+     * @param id ID of the list required to delete
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    public void deleteList(String id, final Response<Object> responseListener) {
+        if (isSDKInitialized()) {
+            Call<com.squareup.okhttp.ResponseBody> deleteList = mMailchimpAPI.deleteList(id);
+            deleteList.enqueue(new Callback<com.squareup.okhttp.ResponseBody>() {
+                @Override
+                public void onResponse(Call<com.squareup.okhttp.ResponseBody> call, retrofit2.Response<com.squareup.okhttp.ResponseBody> response) {
+                    Error error;
+                    if ((error = getError(response)) != null) {
+                        responseListener.onFailure(error);
+                    } else {
+                        responseListener.onSuccess(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<com.squareup.okhttp.ResponseBody> call, Throwable t) {
+                    responseListener.onFailure(getEmptyError(t.getMessage()));
+                }
+            });
+        } else {
+            responseListener.onFailure(getEmptyError("SDK not initialized"));
+        }
+    }
+
+    /**
      * Get the serialized Error object from response.
      * @param response Retrofit response.
      * @return Returns null if response is a success or null. A valid {@link Error} will be returned if not success and able to convert error body of the response.
