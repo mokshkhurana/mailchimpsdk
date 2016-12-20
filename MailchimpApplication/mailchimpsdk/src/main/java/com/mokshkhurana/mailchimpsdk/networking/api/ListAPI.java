@@ -1,17 +1,19 @@
-package com.mokshkhurana.mailchimpsdk.networking;
+package com.mokshkhurana.mailchimpsdk.networking.api;
 
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
 import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
 import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
+import com.squareup.okhttp.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface MailchimpAPI {
+public interface ListAPI {
 
     /**
      * Endpoint for mailchimp v3
@@ -27,4 +29,7 @@ public interface MailchimpAPI {
 
     @POST("lists")
     Call<ListInfo> createList(@Body CreateListRequest createListRequest);
+
+    @DELETE("lists/{id}")
+    Call<ResponseBody> deleteList(@Path(value = "id", encoded = true) String id);
 }

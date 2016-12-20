@@ -6,10 +6,6 @@ This library is still under development. Please use at your own risk.
 ## Installation:
 
 ```
-maven {
-url 'https://dl.bintray.com/mokshkhurana/moksh/'
-}
-
 dependencies {
 compile 'com.mokshkhurana:mailchimpsdk:1.+'
 }
