@@ -27,6 +27,11 @@ public class MailchimpSDK {
     public static final String SDK_NOT_INITIALIZED = "SDK not initialized";
 
     /**
+     * Endpoint for mailchimp v3
+     */
+    private static final String ENDPOINT = "https://<dc>.api.mailchimp.com/3.0/";
+
+    /**
      * Create a singleton instance of the SDK
      * @return Returns an instance of the SDK
      */
@@ -61,7 +66,7 @@ public class MailchimpSDK {
 
         // Get the <dc> for endpoint from apikey
         String dc = apiKey.substring(apiKey.lastIndexOf('-') + 1).trim();
-        baseUrl = ListAPI.ENDPOINT.replaceAll("<dc>", dc);
+        baseUrl = ENDPOINT.replaceAll("<dc>", dc);
 
         // Set up http client to pass apiKey in header for all requests
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

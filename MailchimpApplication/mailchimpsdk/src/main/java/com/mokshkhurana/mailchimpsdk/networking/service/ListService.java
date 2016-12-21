@@ -4,7 +4,7 @@ import com.mokshkhurana.mailchimpsdk.MailchimpSDK;
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
 import com.mokshkhurana.mailchimpsdk.model.ServiceError;
 import com.mokshkhurana.mailchimpsdk.networking.request.AddMembersRequest;
-import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
+import com.mokshkhurana.mailchimpsdk.networking.request.ModifyListRequest;
 import com.mokshkhurana.mailchimpsdk.networking.response.AddMembersResponse;
 import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
 import com.mokshkhurana.mailchimpsdk.networking.response.Response;
@@ -82,36 +82,6 @@ public class ListService {
     }
 
     /**
-     * Creates an empty list
-     * @param request {@link CreateListRequest} required to send as body parameter
-     * @param sdk SDK required to check if it's initialized and API call.
-     * @param responseListener Listener required to notify onSuccess and onFailure.
-     */
-    public static void createList(CreateListRequest request, MailchimpSDK sdk, final Response<ListInfo> responseListener) {
-        if (sdk.isSDKInitialized()) {
-            Call<ListInfo> createList = sdk.getListAPI().createList(request);
-            createList.enqueue(new Callback<ListInfo>() {
-                @Override
-                public void onResponse(Call<ListInfo> call, retrofit2.Response<ListInfo> response) {
-                    ServiceError serviceError;
-                    if ((serviceError = Utils.getError(response)) != null) {
-                        responseListener.onFailure(serviceError);
-                    } else {
-                        responseListener.onSuccess(response.body());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ListInfo> call, Throwable t) {
-                    responseListener.onFailure(Utils.getEmptyError(t.getMessage()));
-                }
-            });
-        } else {
-            responseListener.onFailure(Utils.getEmptyError(MailchimpSDK.SDK_NOT_INITIALIZED));
-        }
-    }
-
-    /**
      * Delete the list by it's ID
      * @param id ID of the list required to delete
      * @param sdk SDK required to check if it's initialized and API call.
@@ -144,7 +114,7 @@ public class ListService {
     /**
      * Batch subscribe or unsubscribe list members. Maximum members allowed to update per call is 500 by Mailchimp API.
      * @param id List ID required to modify members.
-     * @param request Request body for post call.
+     * @param request {@link AddMembersRequest} required to send as body parameter
      * @param sdk SDK required to check if it's initialized and API call.
      * @param responseListener Listener required to notify onSuccess and onFailure.
      */
@@ -167,6 +137,67 @@ public class ListService {
                     responseListener.onFailure(Utils.getEmptyError(t.getMessage()));
                 }
             });
+        } else {
+            responseListener.onFailure(Utils.getEmptyError(MailchimpSDK.SDK_NOT_INITIALIZED));
+        }
+    }
+
+    /**
+     * Update the settings for a specific list.
+     * @param id List ID required to update list.
+     * @param request {@link ModifyListRequest} required to send as body parameter
+     * @param sdk SDK required to check if it's initialized and API call.
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    public static void updateList(String id, ModifyListRequest request, MailchimpSDK sdk, final Response<ListInfo> responseListener) {
+        modifyList(request, id, sdk, responseListener);
+    }
+
+    /**
+     * Creates an empty list
+     * @param request {@link ModifyListRequest} required to send as body parameter
+     * @param sdk SDK required to check if it's initialized and API call.
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    public static void createList(ModifyListRequest request, MailchimpSDK sdk, final Response<ListInfo> responseListener) {
+        modifyList(request, null, sdk, responseListener);
+    }
+
+    /**
+     * Creates/updates list settings.
+     * @param request {@link ModifyListRequest} required to send as body parameter
+     * @param id If null, then a new list is created, otherwise list with id is updated.
+     * @param sdk SDK required to check if it's initialized and API call.
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    private static void modifyList(ModifyListRequest request, String id, MailchimpSDK sdk, final Response<ListInfo> responseListener) {
+        if (sdk.isSDKInitialized()) {
+            Call<ListInfo> modifyRequest;
+            if (id != null && !id.isEmpty()) {
+                // Update list request
+                modifyRequest = sdk.getListAPI().updateList(id, request);
+            } else {
+                // Create list request
+                modifyRequest = sdk.getListAPI().createList(request);
+            }
+            modifyRequest.enqueue(new Callback<ListInfo>() {
+                @Override
+                public void onResponse(Call<ListInfo> call, retrofit2.Response<ListInfo> response) {
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
+                    } else {
+                        responseListener.onSuccess(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ListInfo> call, Throwable t) {
+                    responseListener.onFailure(Utils.getEmptyError(t.getMessage()));
+                }
+            });
+        } else {
+            responseListener.onFailure(Utils.getEmptyError(MailchimpSDK.SDK_NOT_INITIALIZED));
         }
     }
 }
