@@ -1,9 +1,11 @@
 package com.mokshkhurana.mailchimpsdk.networking.service;
 
 import com.mokshkhurana.mailchimpsdk.MailchimpSDK;
-import com.mokshkhurana.mailchimpsdk.model.Error;
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
+import com.mokshkhurana.mailchimpsdk.model.ServiceError;
+import com.mokshkhurana.mailchimpsdk.networking.request.AddMembersRequest;
 import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
+import com.mokshkhurana.mailchimpsdk.networking.response.AddMembersResponse;
 import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
 import com.mokshkhurana.mailchimpsdk.networking.response.Response;
 import com.mokshkhurana.mailchimpsdk.util.Utils;
@@ -26,9 +28,9 @@ public class ListService {
             list.enqueue(new Callback<ListResponse>() {
                 @Override
                 public void onResponse(Call<ListResponse> call, retrofit2.Response<ListResponse> response) {
-                    Error error;
-                    if ((error = Utils.getError(response)) != null) {
-                        responseListener.onFailure(error);
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
                     } else {
                         responseListener.onSuccess(response.body());
                     }
@@ -61,9 +63,9 @@ public class ListService {
             list.enqueue(new Callback<ListInfo>() {
                 @Override
                 public void onResponse(Call<ListInfo> call, retrofit2.Response<ListInfo> response) {
-                    Error error;
-                    if ((error = Utils.getError(response)) != null) {
-                        responseListener.onFailure(error);
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
                     } else {
                         responseListener.onSuccess(response.body());
                     }
@@ -91,9 +93,9 @@ public class ListService {
             createList.enqueue(new Callback<ListInfo>() {
                 @Override
                 public void onResponse(Call<ListInfo> call, retrofit2.Response<ListInfo> response) {
-                    Error error;
-                    if ((error = Utils.getError(response)) != null) {
-                        responseListener.onFailure(error);
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
                     } else {
                         responseListener.onSuccess(response.body());
                     }
@@ -121,9 +123,9 @@ public class ListService {
             deleteList.enqueue(new Callback<com.squareup.okhttp.ResponseBody>() {
                 @Override
                 public void onResponse(Call<com.squareup.okhttp.ResponseBody> call, retrofit2.Response<com.squareup.okhttp.ResponseBody> response) {
-                    Error error;
-                    if ((error = Utils.getError(response)) != null) {
-                        responseListener.onFailure(error);
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
                     } else {
                         responseListener.onSuccess(response.body());
                     }
@@ -136,6 +138,35 @@ public class ListService {
             });
         } else {
             responseListener.onFailure(Utils.getEmptyError(MailchimpSDK.SDK_NOT_INITIALIZED));
+        }
+    }
+
+    /**
+     * Batch subscribe or unsubscribe list members. Maximum members allowed to update per call is 500 by Mailchimp API.
+     * @param id List ID required to modify members.
+     * @param request Request body for post call.
+     * @param sdk SDK required to check if it's initialized and API call.
+     * @param responseListener Listener required to notify onSuccess and onFailure.
+     */
+    public static void addMembers(String id, AddMembersRequest request, MailchimpSDK sdk, final Response<AddMembersResponse> responseListener) {
+        if (sdk.isSDKInitialized()) {
+            Call<AddMembersResponse> addMembers = sdk.getListAPI().addMembers(id, request);
+            addMembers.enqueue(new Callback<AddMembersResponse>() {
+                @Override
+                public void onResponse(Call<AddMembersResponse> call, retrofit2.Response<AddMembersResponse> response) {
+                    ServiceError serviceError;
+                    if ((serviceError = Utils.getError(response)) != null) {
+                        responseListener.onFailure(serviceError);
+                    } else {
+                        responseListener.onSuccess(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AddMembersResponse> call, Throwable t) {
+                    responseListener.onFailure(Utils.getEmptyError(t.getMessage()));
+                }
+            });
         }
     }
 }

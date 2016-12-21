@@ -1,7 +1,7 @@
 package com.mokshkhurana.mailchimpsdk.util;
 
 import com.mokshkhurana.mailchimpsdk.MailchimpSDK;
-import com.mokshkhurana.mailchimpsdk.model.Error;
+import com.mokshkhurana.mailchimpsdk.model.ServiceError;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,37 +25,37 @@ public class Utils {
     }
 
     /**
-     * Get the serialized Error object from response.
+     * Get the serialized ServiceError object from response.
      * @param response Retrofit response.
-     * @return Returns null if response is a success or null. A valid {@link Error} will be returned if not success and able to convert error body of the response.
+     * @return Returns null if response is a success or null. A valid {@link ServiceError} will be returned if not success and able to convert error body of the response.
      * Otherwise return {@link #getEmptyError(String)}.
      */
-    public static Error getError(retrofit2.Response response) {
-        Error error = null;
+    public static ServiceError getError(retrofit2.Response response) {
+        ServiceError serviceError = null;
         if (response != null && !response.isSuccessful()) {
             if (response.errorBody() != null && MailchimpSDK.errorConverter != null) {
-                error = new Error();
+                serviceError = new ServiceError();
                 try {
-                    error = MailchimpSDK.errorConverter.convert(response.errorBody());
+                    serviceError = MailchimpSDK.errorConverter.convert(response.errorBody());
                 } catch (IOException e) {
                     e.printStackTrace();
-                    error.setDetail(e.getMessage());
+                    serviceError.setDetail(e.getMessage());
                 }
             } else {
-                error = getEmptyError("");
+                serviceError = getEmptyError("");
             }
         }
-        return error;
+        return serviceError;
     }
 
     /**
-     * Returns an empty {@link Error} with detail set to message.
+     * Returns an empty {@link ServiceError} with detail set to message.
      * @param message Message to set.
-     * @return An {@link Error}
+     * @return An {@link ServiceError}
      */
-    public static Error getEmptyError(String message) {
-        Error error = new Error();
-        error.setDetail(message);
-        return error;
+    public static ServiceError getEmptyError(String message) {
+        ServiceError serviceError = new ServiceError();
+        serviceError.setDetail(message);
+        return serviceError;
     }
 }

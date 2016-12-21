@@ -1,7 +1,9 @@
 package com.mokshkhurana.mailchimpsdk.networking.api;
 
 import com.mokshkhurana.mailchimpsdk.model.ListInfo;
+import com.mokshkhurana.mailchimpsdk.networking.request.AddMembersRequest;
 import com.mokshkhurana.mailchimpsdk.networking.request.CreateListRequest;
+import com.mokshkhurana.mailchimpsdk.networking.response.AddMembersResponse;
 import com.mokshkhurana.mailchimpsdk.networking.response.ListResponse;
 import com.squareup.okhttp.ResponseBody;
 
@@ -32,4 +34,7 @@ public interface ListAPI {
 
     @DELETE("lists/{id}")
     Call<ResponseBody> deleteList(@Path(value = "id", encoded = true) String id);
+
+    @POST("lists/{id}")
+    Call<AddMembersResponse> addMembers(@Path(value = "id", encoded = true) String listId, @Body AddMembersRequest addMembersRequest);
 }

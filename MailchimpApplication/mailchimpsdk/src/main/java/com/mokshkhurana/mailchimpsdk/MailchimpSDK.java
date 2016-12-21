@@ -2,7 +2,7 @@ package com.mokshkhurana.mailchimpsdk;
 
 import android.util.Log;
 
-import com.mokshkhurana.mailchimpsdk.model.Error;
+import com.mokshkhurana.mailchimpsdk.model.ServiceError;
 import com.mokshkhurana.mailchimpsdk.networking.api.ListAPI;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class MailchimpSDK {
     private String apiKey;
     private String baseUrl;
     private Retrofit mRetrofit;
-    public static Converter<ResponseBody, Error> errorConverter;
+    public static Converter<ResponseBody, ServiceError> errorConverter;
     public static final String SDK_NOT_INITIALIZED = "SDK not initialized";
 
     /**
@@ -82,7 +82,7 @@ public class MailchimpSDK {
                 .client(client)
                 .build();
 
-        errorConverter = mRetrofit.responseBodyConverter(Error.class, new Annotation[0]);
+        errorConverter = mRetrofit.responseBodyConverter(ServiceError.class, new Annotation[0]);
 
         // Create APIs
         mListAPI = mRetrofit.create(ListAPI.class);
