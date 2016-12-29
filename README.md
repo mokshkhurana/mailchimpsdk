@@ -7,7 +7,7 @@ This library is still under development. Please use at your own risk.
 
 ```
 dependencies {
-compile 'com.mokshkhurana:mailchimpsdk:1.3'
+compile 'com.mokshkhurana:mailchimpsdk:1.3.1'
 }
 ```
 ## Usage
