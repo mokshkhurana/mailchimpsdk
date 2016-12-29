@@ -2,7 +2,7 @@ package com.mokshkhurana.mailchimpsdk;
 
 import android.util.Log;
 
-import com.mokshkhurana.mailchimpsdk.model.Error;
+import com.mokshkhurana.mailchimpsdk.model.ServiceError;
 import com.mokshkhurana.mailchimpsdk.networking.api.ListAPI;
 
 import java.io.IOException;
@@ -23,8 +23,13 @@ public class MailchimpSDK {
     private String apiKey;
     private String baseUrl;
     private Retrofit mRetrofit;
-    public static Converter<ResponseBody, Error> errorConverter;
+    public static Converter<ResponseBody, ServiceError> errorConverter;
     public static final String SDK_NOT_INITIALIZED = "SDK not initialized";
+
+    /**
+     * Endpoint for mailchimp v3
+     */
+    private static final String ENDPOINT = "https://<dc>.api.mailchimp.com/3.0/";
 
     /**
      * Create a singleton instance of the SDK
@@ -61,7 +66,7 @@ public class MailchimpSDK {
 
         // Get the <dc> for endpoint from apikey
         String dc = apiKey.substring(apiKey.lastIndexOf('-') + 1).trim();
-        baseUrl = ListAPI.ENDPOINT.replaceAll("<dc>", dc);
+        baseUrl = ENDPOINT.replaceAll("<dc>", dc);
 
         // Set up http client to pass apiKey in header for all requests
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -82,7 +87,7 @@ public class MailchimpSDK {
                 .client(client)
                 .build();
 
-        errorConverter = mRetrofit.responseBodyConverter(Error.class, new Annotation[0]);
+        errorConverter = mRetrofit.responseBodyConverter(ServiceError.class, new Annotation[0]);
 
         // Create APIs
         mListAPI = mRetrofit.create(ListAPI.class);

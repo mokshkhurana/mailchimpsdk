@@ -5,7 +5,7 @@ import com.mokshkhurana.mailchimpsdk.enums.Visibility;
 import com.mokshkhurana.mailchimpsdk.model.CampaignDefaults;
 import com.mokshkhurana.mailchimpsdk.model.Contact;
 
-public class CreateListRequest {
+public class ModifyListRequest {
 
     @SerializedName("name")
     private String name;
@@ -67,19 +67,6 @@ public class CreateListRequest {
     }
 
     public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
-    }
-
-    public CreateListRequest(String name, Contact contact, String permissionReminder, Boolean useArchiveBar, CampaignDefaults campaignDefaults, String notifyOnSubscribe,
-                             String notifyOnUnsubscribe, Boolean emailTypeOption, Visibility visibility) {
-        this.name = name;
-        this.contact = contact;
-        this.permissionReminder = permissionReminder;
-        this.useArchiveBar = useArchiveBar;
-        this.campaignDefaults = campaignDefaults;
-        this.notifyOnSubscribe = notifyOnSubscribe;
-        this.notifyOnUnsubscribe = notifyOnUnsubscribe;
-        this.emailTypeOption = emailTypeOption;
         this.visibility = visibility;
     }
 }
