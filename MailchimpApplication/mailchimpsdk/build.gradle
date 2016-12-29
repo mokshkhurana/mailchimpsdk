@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/mokshkhurana/mailchimpsdk'
     gitUrl = 'https://github.com/mokshkhurana/mailchimpsdk.git'
 
-    libraryVersion = '1.3'
+    libraryVersion = '1.3.1'
 
     developerId = 'mokshkhurana'
     developerName = 'Moksh Khurana'
@@ -33,7 +33,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
-        versionName "1.3"
+        versionName "1.3.1"
     }
     buildTypes {
         release {

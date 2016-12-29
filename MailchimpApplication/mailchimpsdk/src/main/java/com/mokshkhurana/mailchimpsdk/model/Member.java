@@ -16,6 +16,9 @@ public class Member {
     @SerializedName("status")
     private Status status;
 
+    @SerializedName("merge_fields")
+    private MergeFields mergeFields;
+
     @SerializedName("language")
     private String language;
 
@@ -178,5 +181,13 @@ public class Member {
 
     public ArrayList<Links> getLinks() {
         return links;
+    }
+
+    public MergeFields getMergeFields() {
+        return mergeFields;
+    }
+
+    public void setMergeFields(MergeFields mergeFields) {
+        this.mergeFields = mergeFields;
     }
 }
